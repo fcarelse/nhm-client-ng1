@@ -1,0 +1,13 @@
+<h3>Pages</h3>
+<table class="table" ng-init="Pages.reload()">
+	<tr>
+		<th>ID</th>
+		<th>Tag</th>
+		<th>Title</th>
+	</tr>
+	<tr ng-repeat="page in Pages.records">
+		<td>{{page.id}}</td>
+		<td>{{page.tag}}</td>
+		<td>{{page.name}}</td>
+	</tr>
+</table>

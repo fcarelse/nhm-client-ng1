@@ -1,0 +1,40 @@
+<navbar class="navbar navbar-expand-lg navbar-light bg-light alignleft" ng-init="sys.navbar.init()" style="z-index: 1000">
+	<a href="/" class="navbar-brand">
+		<img src="/img/logo.svg" alt="" width="32" height="32">
+		{{nhm.Global.appTitle}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <form class="form-inline centered">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+		<ul class="navbar-nav my-2 my-lg-0">
+      <li class="nav-item dropdown" ng-hide="menu.hide" ng-repeat="menu in data.menus">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+					ng-hide="!menu.pages">
+          {{menu.name}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" ng-click="sys.goto(page.tag)" ng-hide="page.hide" ng-repeat="page in menu.pages">
+						{{page.name}}</a>
+        </div>
+      </li>
+      <li class="nav-item active" ng-if="!nhm.User.user.id">
+        <a class="nav-link" href="/home/login">Sign in
+					<span ng-if="data.page.tag=='login'" class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active" ng-if="!nhm.User.user.id">
+        <a class="nav-link" href="/home/register">Sign up
+					<span ng-if="data.page.tag=='register'" class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active" ng-if="nhm.User.user.id">
+        <a class="nav-link" href="/home/logout" ng-click="sys.logout()">Sign out
+					<span ng-if="data.page.tag=='logout'" class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+</navbar>

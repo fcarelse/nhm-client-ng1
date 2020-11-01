@@ -1,0 +1,47 @@
+body{
+	padding-top: 100px;
+	padding-bottom: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.page{
+	background: white;
+	min-width: 400px;
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 10px;
+	min-height: calc(100vh - 300px);
+}
+
+navbar.navbar{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.broadcast{
+	text-align: center;
+}
+.breadcrumbs, .broadcast{
+	background: white;
+	position: fixed;
+	left: 0;
+	top: 60px;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 10px;
+	z-index: 900;
+}
+
+footer{
+	background: white;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}

@@ -1,0 +1,18 @@
+
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} !=javascie
+RewriteRule test\.php http://localhost/php/test.php [P,L,QSA,NC]
+
+RewriteBase /php/
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTPS}:s on:(s)
+RewriteRule (.*) http%1://%{HTTP_HOST}/ [R]
+
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTPS}:s on:(s)
+RewriteCond %{HTTP_HOST} !=javascie
+RewriteCond %{HTTP_HOST} !=localhost
+RewriteRule \.php$ http%1://%{HTTP_HOST}/home/503.php [R,L,QSA,NC]

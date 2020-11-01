@@ -1,0 +1,15 @@
+.footer{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	border-top: 1px grey solid;
+	width: 100vw;
+}
+
+section>h3{
+	background: #dee;
+	border: 1px solid #ddd;
+}
+section{
+	border: 1px solid #eee;
+}

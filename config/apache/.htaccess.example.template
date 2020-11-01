@@ -1,0 +1,13 @@
+RewriteEngine on
+
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} !=localhost [NC]
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L,QSA]
+
+RewriteRule ^$ https://%{HTTP_HOST}/home/ [R,L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule (.*) ${target_protocol}://${target_domain}:${target_port}/$1 [L,P,QSA,NE]

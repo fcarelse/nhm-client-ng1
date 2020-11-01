@@ -1,0 +1,4 @@
+<div ng-show="data.content.id" ng-controller="Edit">
+	<div ckeditor="options" ng-model="data.content.html" rready="init(100)" ng-change="changed('content')"
+		contenteditable="{{Auth.hasTag('records') && Auth.hasTag('useristrators')}}"></div>
+</div>

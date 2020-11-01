@@ -1,0 +1,17 @@
+<h3>
+	Articles
+	<a ng-click="sys.newArticle()" class="btn btn-primary btn-xs">
+		<i class="fa fa-plus"></i> New
+	</a>
+</h3>
+
+<table class="table" ng-init="sys.Articles.reload();">
+	<tr>
+		<th>Tag</th>
+		<th>Title</th>
+	</tr>
+	<tr ng-repeat="article in sys.Articles.records" ng-click="sys.gotoEdArt(article.tag)" class="pointer">
+		<td><a href="#">{{article.tag}}</a></td>
+		<td>{{article.name}}</td>
+	</tr>
+</table>

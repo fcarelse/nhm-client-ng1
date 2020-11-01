@@ -1,0 +1,16 @@
+<h3>
+	Pages
+	<a ng-click="sys.newPage()" class="btn btn-primary btn-xs">
+		<i class="fa fa-plus"></i> New
+	</a>
+</h3>
+<table class="table" ng-init="Pages.reload(); data.edit = {};">
+	<tr>
+		<th>Tag</th>
+		<th>Title</th>
+	</tr>
+	<tr ng-repeat="page in Pages.records" ng-click="sys.gotoEdit(page.tag)" class="pointer">
+		<td><a href="#">{{page.tag}}</a></td>
+		<td>{{page.name}}</td>
+	</tr>
+</table>
