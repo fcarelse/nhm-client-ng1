@@ -1,0 +1,24 @@
+{
+  "name": "nhm-client-ng1",
+  "version": "0.0.1-experimental",
+  "description": "Node Hosting Manager Client AngularJS",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "npx jest",
+		"deploy:experimental": "cp -r www/* ../../../domains/experimental"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://frank@gitlab.js.ie/frank/nhm-client-ng1"
+  },
+  "keywords": [
+    "NHM",
+    "ng1",
+    "client"
+  ],
+  "author": "Francis Carelse",
+  "license": "UNLICENSED"
+}

@@ -5,7 +5,7 @@ select.ng-invalid-required, input.ng-invalid-required, textarea.ng-invalid-requi
 .centered{ margin-left: auto; margin-right: auto; }
 .center-inside{ text-align: center; display: inline-block; }
 .center{ text-align: center; }
-.inline{ display: inline-block; }
+.inline, .inline-block{ display: inline-block; }
 .align-center{ text-align: center; }
 .align-left{ text-align: left; }
 .align-right{ text-align: right; }
@@ -13,7 +13,7 @@ select.ng-invalid-required, input.ng-invalid-required, textarea.ng-invalid-requi
 
 h6{ font-weight: bold; }
 a small{ text-transform: capitalize; }
-.pointer{ cursor: pointer }
+.pointer, a[ng-click]{ cursor: pointer }
 .section{ background: white; }
 .box{ display: flex; }
 .flexalign-left{ justify-content: flex-start; }

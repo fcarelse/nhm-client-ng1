@@ -1,29 +1,33 @@
-<h3>Register</h3>
-<form ng-init="data.reg = {}">
-  <div class="form-group">
-    <label for="regFirst">First Name</label>
-    <input ng-model="data.reg.first" type="text" class="form-control" id="refFirst" aria-describedby="regFirstHelp">
-    <small id="regFirstHelp" class="form-text text-muted">First name</small>
-  </div>
-  <div class="form-group">
-    <label for="regLast">Last Name</label>
-    <input ng-model="data.reg.first" type="text" class="form-control" id="refLast" aria-describedby="regLastHelp">
-    <small id="regLastHelp" class="form-text text-muted">Last name</small>
-  </div>
-  <div class="form-group">
-    <label for="regEmail">Email</label>
-    <input ng-model="data.reg.email" type="text" class="form-control" id="regEmail" aria-describedby="emailHelp">
-    <small id="emailHelp" class="form-text text-muted">Your email address from your account with us</small>
-  </div>
-  <div class="form-group">
-    <label for="regPassword">New Unique Password</label>
-    <input ng-model="data.reg.password" type="password" class="form-control" id="regPassword" aria-describedby="passwordHelp">
-    <small id="passwordHelp" class="form-text text-muted">Set a password that you do not use anywhere else</small>
-	</div>
-  <div class="form-group">
-    <label for="regConfirm">Confirm Password</label>
-    <input ng-model="data.reg.confirm" type="password" class="form-control" id="regConfirm" aria-describedby="confirmHelp">
-    <small id="confirmHelp" class="form-text text-muted">Retype your password to confirm it</small>
-	</div>
-  <button type="submit" ng-click="sys.reg(data.reg)" class="btn btn-primary pointer">Submit</button>
-</form>
+<div class="container" ng-if="sys.page.tag=='register'">
+	<h3>Register</h3>
+	<form ng-init="sys.User.Register.init()" id="regForm" name="regForm">
+		<div class="form-group">
+			<label for="regEmail">Email</label>
+			<input ng-model="data.reg.email" type="text" class="form-control"
+				id="regEmail" aria-describedby="emailHelp" required>
+			<small id="emailHelp" class="form-text text-muted">Your email address from your account with us</small>
+		</div>
+		<div class="form-group">
+			<label for="regCaptcha">Captcha <img src="/user/captcha.svg"></label>
+			<input ng-model="data.reg.captcha" type="text" class="form-control"
+				id="regCaptcha" aria-describedby="captchaHelp" required>
+			<small id="captchaHelp" class="form-text text-muted">Enter the text from the captcha image</small>
+		</div>
+
+		<div class="form-group">
+			<label for="regFirst">First name</label>
+			<input ng-model="data.reg.first" type="text" class="form-control"
+				id="regFirst" aria-describedby="firstHelp" required>
+			<small id="firstHelp" class="form-text text-muted">First name</small>
+		</div>
+
+		<div class="form-group">
+			<label for="regLast">Last name</label>
+			<input ng-model="data.reg.last" type="text" class="form-control"
+				id="regLast" aria-describedby="lastHelp" required>
+			<small id="lastHelp" class="form-text text-muted">Last name</small>
+		</div>
+
+		<button type="submit" ng-click="sys.User.Register.submit()" class="btn btn-primary pointer" ng-disable="regForm.$invalid()">Submit</button>
+	</form>
+</div>

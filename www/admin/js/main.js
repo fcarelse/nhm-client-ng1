@@ -1,10 +1,11 @@
 app.controller('Main', ['$scope', '$location', '$sce', 'Util', 'Notify', function ($scope, $location, $sce, Util, Notify) {
 
-	sys.Tasks = nhm.DAO('tasks',{singular: 'task', plural: 'tasks', data});
+	sys.Tasks = nhm.DAO('tasks',{singular: 'task', plural: 'tasks', data, watching: true});
 	data.viewport = 'admin';
 	const Sections = nhm.DAO('sections');
 	Object.assign(sys, {Sections})
 	sys.nextTick = Util.nextTick;
+	if(!sys.edit) sys.edit = {};
 
 	data.page = Util.findRecord(data.pages, 'tag', 'editPage');
 
@@ -27,12 +28,10 @@ app.controller('Main', ['$scope', '$location', '$sce', 'Util', 'Notify', functio
 		},
 	};
 
-	sys.gotoEdit = async page => {
-		data.page = Util.findRecord(data.pages, 'tag', 'editPage');
-		// if(!data.page) return sys.goto('welcome');
-	 	await sys.goto('editPage', page);
-	 	data.edit = await sys.Pages.load(page);
-	 	$location.path(`/editPage/${page}`);
+	sys.gotoEdit = async pageTag => {
+		sys.page = Util.findRecord(sys.pages, 'tag', 'editPage');
+	 	$location.path(`/editPage/${pageTag}`);
+	 	data.edit = await sys.Pages.load(pageTag);
 	 	Util.safeApply();
 	}
 
@@ -45,14 +44,15 @@ app.controller('Main', ['$scope', '$location', '$sce', 'Util', 'Notify', functio
 	 	Util.safeApply();
 	}
 
-	sys.gotoTask = async tag => {
-		data.page = Util.findRecord(data.pages, 'tag', 'task');
+	sys.gotoTask = async id => {
+		await sys.Tasks.reload();
+		data.task = Util.findRecord(data.tasks, 'id', 'task');
 		// if(!data.page) return sys.goto('welcome');
-	 	await sys.goto('task', tag);
-	 	await sys.Tasks.load(tag);
-		 console.log(data.task);
+	 	await sys.goto('task', id);
+	 	data.task = await sys.Tasks.load(id);
+		console.log(data.task);
 		if(data.task.error) return sys.goto('tasks');
-	 	$location.path(`/task/${tag}`);
+	 	$location.path(`/task/${id}`);
 	 	Util.safeApply();
 	}
 
@@ -73,5 +73,33 @@ app.controller('Main', ['$scope', '$location', '$sce', 'Util', 'Notify', functio
 		if(res.error) return await sys.goto('articles');
 		await sys.gotoEdArt(res.record.tag);
 	}
+
+	sys.newTable = async ()=>{
+		const tag = prompt('What is the tag of the new table?');
+		if(!tag) return Notify.send('Tag required for new table.')
+		if(!tag.match(/\w[\w\W\d]+/)) return Notify.send('Tag must be 2 or more characters starting with a lowercase letter.')
+		const res = await nhm.Data('tables').create({tag, name: 'New Table', sort: {}});
+		if(res.error) return await sys.goto('tables');
+		data.table = res;
+		sys.safeApply();
+	}
+
+	sys.Tables.formFields = [
+		{
+			name: 'Description',
+			model: 'Tables.record.name',
+			field: 'name'
+		},
+		{
+			name: 'Sort By',
+			model: 'Tables.record.sort.by',
+			field: 'sort'
+		},
+		{
+			name: 'Sort Order',
+			model: 'Tables.record.sort.order',
+			field: 'sort'
+		},
+	];
 
 }]);

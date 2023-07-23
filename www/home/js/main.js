@@ -1,9 +1,12 @@
 app.controller('Main', ['$scope', '$location', '$sce', 'Util', 'Notify', function ($scope, $location, $sce, Util, Notify) {
 
+	// nhm.debugMode = true;
+
 	data.viewport = 'home';
 	
 	const Sections = nhm.Data('sections');
 	const Articles = nhm.Data('articles');
+	sys.Pages = nhm.DAO('pages', {data});
 
 	Object.assign($scope, {$sce});
 
@@ -22,8 +25,9 @@ app.controller('Main', ['$scope', '$location', '$sce', 'Util', 'Notify', functio
 				} break;
 				default:{
 					await sys.goto(page,tag);
-					data.page.sections = await Sections.list({filters:[
-						{field: 'page', value: data.page.id}
+					sys.page.sections = await Sections.list({filters:[
+						{field: 'page', value: sys.page.id},
+						{field: 'status', op: 'NE', value: 'DE'},
 					]});
 					sys.genTOC();
 				}
@@ -31,21 +35,38 @@ app.controller('Main', ['$scope', '$location', '$sce', 'Util', 'Notify', functio
 		},
 	};
 
-	// nhm.Comms.watch({type:'pages'},async event=>{
-	// 	switch(event.method){
-	// 		case 'change': case 'update': {
-	// 			const page = Util.findRecord(data.pages,'id',event.id);
-	// 			if(!page || !page.id) return;
-	// 			const rec = await nhm.Data('pages').read({id: page.id});
-	// 			if(rec) Object.assign(page, rec);
-	// 			sys.safeApply();
-	// 		} break;
-	// 	}
-	// })
+	nhm.Comms.watch({type:'pages'},async event=>{
+		switch(event.method){
+			case 'change': {
+				if(sys.page.id == event.id){
+					// sys.page.content == event.value;
+					updateContent();
+				}
+				sys.safeApply();
+			} break;
+		}
+	})
+	
+	let reupdate = 0;
+	async function updateContent(){
+		if(reupdate) return reupdate = 2;
+		reupdate = 1
+		nhm.Data('pages').read({id: sys.page.id})
+		.then(res=>{
+			sys.page.content = res.content;
+			sys.safeApply();
+			console.log(res);
+		})
+		.finally(()=>reupdate = 0);
+		if(reupdate == 2){
+			reupdate = 0;
+			setTimeout(()=>updateContent(),5000);
+		}
+	}
 
 	sys.genTOC = ()=>{
-		data.page.toc = Util.treeBuilder(data.page.sections,{parentKey: 'section'});
-		data.page.toc.forEach((it, index)=>setLevel(it,1,index+1, `${index+1}`));
+		sys.page.toc = Util.treeBuilder(sys.page.sections,{parentKey: 'section'});
+		sys.page.toc.forEach((it, index)=>setLevel(it,1,index+1, `${index+1}`));
 		function setLevel(item, level, index, ref){
 			item.children.forEach((it, index)=>setLevel(it, level+1, index+1, ref+`.${index+1}`));
 			item.level = level;

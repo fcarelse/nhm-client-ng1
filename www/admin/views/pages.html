@@ -4,13 +4,17 @@
 		<i class="fa fa-plus"></i> New
 	</a>
 </h3>
+<div class="fxc-tree">
+	<div class="fxc-tree-node">
+	</div>
+</div>
 <table class="table" ng-init="Pages.reload(); data.edit = {};">
 	<tr>
 		<th>Tag</th>
 		<th>Title</th>
 	</tr>
 	<tr ng-repeat="page in Pages.records" ng-click="sys.gotoEdit(page.tag)" class="pointer">
-		<td><a href="#">{{page.tag}}</a></td>
+		<td>{{page.tag}}</td>
 		<td>{{page.name}}</td>
 	</tr>
 </table>

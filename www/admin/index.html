@@ -5,34 +5,34 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title></title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.10.1/css/xeditable.min.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/themes/vader/jquery-ui.css">
-	<link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css"></link>
-	<link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css"></link>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css"></link>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"></link>
-	<link rel="stylesheet" href="/css/global.css">
-	<link rel="stylesheet" href="/css/widescreen.css" media="screen and (min-width: 768px)">
-	<link rel="stylesheet" href="/css/smallscreen.css" media="screen and (max-width: 768px)">	
-	<link rel="stylesheet" href="/css/admin.css">
-	<link rel="stylesheet" href="/css/tasks.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.10.1/css/xeditable.min.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/themes/vader/jquery-ui.css" />
+	<link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css" />
+	<link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+	<link rel="stylesheet" href="/css/global.css" />
+	<link rel="stylesheet" href="css/widescreen.css" media="screen and (min-width: 768px)" />
+	<link rel="stylesheet" href="css/smallscreen.css" media="screen and (max-width: 768px)" />	
+	<link rel="stylesheet" href="/css/admin.css" />
+	<link rel="stylesheet" href="/css/tasks.css" />
 
 	<script src="https://nhm.ie/client/min.js"></script>
 	<base href="/admin/">
 </head>
 <body ng-controller="Main">
 	<div ng-include="'/layout/navbar.html'"></div>
-	<div ng-include="'views/breadcrumbs.html'"></div>
+	<div ng-include="'views/subNavbar.html'"></div>
 	<my-app></my-app>
-	<div ng-include="data.page? data.page.url: '/blank.html';"></div>
+	<div ng-include="sys.page? sys.page.url: '/blank.html';"></div>
 
 	<div ng-include="'/layout/notifications.html'"></div>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular-resource.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular-route.min.js"></script>
@@ -40,16 +40,22 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.10.1/js/xeditable.min.js"></script>
 	<script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
-	<script src="/lib/ckeditor/ckeditor.js"></script>
-	<script src="/lib/angular-ckeditor/angular-ckeditor.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/ace-builds@1.11.2/src-min/ace.js"></script>
+	<script src="https://cloud9ide.github.io/emmet-core/emmet.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/ace-builds@1.11.2/src-min/ace.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/ace-builds@1.11.2/src-noconflict/ace.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-ace/0.2.3/ui-ace.min.js" integrity="sha512-j/RK8zpZYB6OYdcpxSYqFm9GjuVHiHfLC6FdpK9/Xsq2FGahNB3wBAl1PqdzXoiZ5XSbsfSaxBqWYR8/3ncl6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.19.0/ckeditor.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ckeditor/1.0.3/angular-ckeditor.js"></script>
 	<script src="/user/data"></script>
-	<script src="https://nhm.ie/client/nhm-client.js"></script>
+	<script src="https://nhm.ie/client/nhm-client-jsm-experimental.js"></script>
 	<script src="/data/select"></script>
 	<script src="/admin/js/app.js"></script>
 	<script src="/admin/js/main.js"></script>
 	<script src="/admin/js/edit.js"></script>
 	<script src="/admin/js/editArticle.js"></script>
 	<script src="/admin/js/tasks.js"></script>
+	<script src="/admin/js/tables.js"></script>
 	<script src="/js/util.js"></script>
 	<script src="/js/notify.js"></script>
 </body>

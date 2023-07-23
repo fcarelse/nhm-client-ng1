@@ -3,7 +3,7 @@
 var data = {}; // Global data
 var sys = {}; // Global system
 
-var app = angular.module('app', ['ngResource','ngRoute','ckeditor','xeditable']);
+var app = angular.module('app', ['ngResource','ngRoute','ckeditor','xeditable','ui.ace']);
 
 /**
  * When the app is fully loaded
@@ -21,14 +21,14 @@ angular.element(document).ready(function() {
 		language: 'en',
 		allowedContent: true,
 		entities: false,
-		height: '50vh',
+		height: 'calc(100vh - 360px)',
 		contenteditable: true
 	};
 	if(window.CKEDITOR != null){
 		nhm.Global.editor = CKEDITOR;
 		// CKEDITOR.editorConfig = function(config)
 		// {
-		// 	config.height = '50vh';
+		// 	config.height = 'calc(100vh - 360px)';
 		// 	config.protectedSource.push( /\n/g );
 		// 	Object.assign(config, sys.ckeditorOptions);
 		// };
@@ -56,7 +56,7 @@ app.config(['$locationProvider','$routeProvider',
 			.when('/editPage/:page', {
 				controller: 'Main',
 				templateUrl: function(params){
-					// if(sys.edit) sys.edit(params.page);
+					sys.goto('editPage', params.page);
 					return '/layout/footer.html';
 				}
 			})

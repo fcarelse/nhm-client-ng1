@@ -2,13 +2,14 @@ app.factory('Util', ['$rootScope', '$location', function ($rootScope, $location)
 
 	const {Util, Select, Global} = nhm;
 	const Pages = nhm.DAO('pages');
-	const Articles = nhm.DAO('articles');
+	const Tables = nhm.DAO('tables',{data});
+	const Articles = nhm.DAO('articles',{data});
 
-	Object.assign($rootScope, {nhm, sys, data, Pages, Articles});
-	Object.assign(sys, {$rootScope, Pages, Articles});
+	Object.assign($rootScope, {nhm, sys, data, Pages, Tables, Articles, moment});
+	Object.assign(sys, {$rootScope, Pages, Articles, Tables});
 
-	Pages.watch('records',()=>sys.safeApply());
-	Articles.watch('records',()=>sys.safeApply());
+	Pages.watch('pages',()=>sys.safeApply());
+	Articles.watch('articles',()=>sys.safeApply());
 
 	sys.loadPages = async ()=>{
 		const pages = await Pages.reload();
@@ -16,7 +17,7 @@ app.factory('Util', ['$rootScope', '$location', function ($rootScope, $location)
 		const isAdmin = Global.user.type=='admin';
 		Util.setField(pages, 'hide', true);
 		Util.setField(pages, 'viewport', 'home');
-		data.pages = [
+		sys.pages = [
 			...((isUser||isAdmin)?Select.accountPages:[]),
 			...(isAdmin?Select.adminPages:[]),
 			...pages,
@@ -24,7 +25,7 @@ app.factory('Util', ['$rootScope', '$location', function ($rootScope, $location)
 		];
 		data.menus = Util.cloneRecords(Select.menus);
 		const defaultMenu = Util.findRecord(data.menus,'tag','default');
-		data.pages.forEach(page=>{
+		sys.pages.forEach(page=>{
 			const menu = Util.findRecord(data.menus,'tag',page.menu) || defaultMenu;
 			if(!menu.pages) menu.pages = [];
 			menu.pages.push(page);
@@ -32,22 +33,30 @@ app.factory('Util', ['$rootScope', '$location', function ($rootScope, $location)
 		Util.safeApply();
 	};
 
-	sys.goto = async (page, section) => {
+	nhm.Global.navTo = (path)=>{
+		const matches = path.toString().match(/^\/(home|account|admin)/);
+		if(matches instanceof Array) [,viewport] = matches;
+		if(viewport && data.viewport!=viewport) location = path;
+		$location.path(path);
+	}
+
+	sys.goto = async (pageTag, section) => {
 		await sys.loadPages();
-		data.page = Util.findRecord(data.pages, 'tag', page);
-		if(!data.page || !(data.page instanceof Object)) return sys.goto('welcome');
-		if(data.page.url instanceof String || typeof data.page.url === 'string'){
-			let viewport = data.page.viewport;
-			const matches = data.page.url.toString().match(/^\/(home|account|admin)/);
+		const nextPage = Util.findRecord(sys.pages, 'tag', pageTag);
+		if(!nextPage || !(nextPage instanceof Object)) return sys.goto('welcome');
+		if(nextPage.url instanceof String || typeof nextPage.url === 'string'){
+			let viewport = nextPage.viewport;
+			const matches = nextPage.url.toString().match(/^\/(home|account|admin)/);
 			if(matches instanceof Array) [,viewport] = matches;
 			if(viewport && data.viewport!=viewport)
-				location = (data.page.redirect || `/${viewport}/${page}`+(section?`/${section}`:''));
+				location = (nextPage.redirect || `/${viewport}/${pageTag}`+(section?`/${section}`:''));
 			else{
-				$location.path(`/${page}`+(section?`/${section}`:''));
+				$location.path(`/${pageTag}`+(section?`/${section}`:''));
+				sys.page = nextPage;
 			}
-		} else if(data.page.redirect)
-			window.open(data.page.redirect);
-		else if(data.page.content){
+		} else if(nextPage.redirect)
+			window.open(nextPage.redirect);
+		else if(nextPage.content){
 			// if(watcher){
 			// 	Pages.unwatch(watcher);
 			// 	watcher = null;
@@ -55,13 +64,13 @@ app.factory('Util', ['$rootScope', '$location', function ($rootScope, $location)
 			// console.log('Watching');
 			// watcher = await Pages.watch('record',rec=>{
 			// 	nhm.Data('pages').read({id:rec.id}).then(page=>{
-			// 		Object.assign(data.page, page);
+			// 		Object.assign(nextPage, page);
 			// 		Util.safeApply();
 			// 	});
 			// })
-			await Pages.load(data.page.id);
+			sys.page = await Pages.load(nextPage.id);
 		}
-		if(data.page && data.page.id && sys.genTOC) await sys.genTOC();
+		if(nextPage && nextPage.id && sys.genTOC) await sys.genTOC();
 
 		Util.safeApply();
 	}
@@ -82,45 +91,6 @@ app.factory('Util', ['$rootScope', '$location', function ($rootScope, $location)
 		document.title = title;
 	}
 	sys.title(nhm.Global.appTitle);
-
-	Util.treeBuilder = (
-		data = [],
-		{ idKey = "id", parentKey = "parent", childrenKey = "children" } = {}
-	) => {
-		const tree = [];
-		const childrenOf = {};
-		data.forEach(item => {
-			const { [idKey]: id, [parentKey]: parentId = 0 } = item;
-			item[childrenKey] = childrenOf[id] = childrenOf[id] || [];
-			( parentId?
-				(childrenOf[parentId] = childrenOf[parentId] || []):
-				tree
-			).push(item);
-		});
-		return tree;
-	};
-
-	Select.getName = function(select, id, anyType){
-		if(!Select[select]) return '';
-		if(id === undefined) return '';
-		var item = Util.findRecord(Select[select], 'id', id, !anyType);
-		return item? item.name: Select[select][0].name;
-	};
-
-	Select.getTag = function(select, id, anyType){
-		if(!Select[select]) return '';
-		if(id === undefined) return '';
-		var item = Util.findRecord(Select[select], 'id', id, !anyType);
-		return item? item.tag: Select[select][0].tag;
-	};
-
-	Select.getRecord = function(select, id, anyType, deft){
-		if(!Select[select]) return {};
-		if(id === undefined) return {};
-		var item = Util.findRecord(Select[select], 'id', id, !anyType);
-		var deft = deft!==undefined?deft:Select[select][0].id?{}:Select[select][0];
-		return item? item: deft;
-	};
 
 	sys.reg = async registration => {
 		await nhm.User.register(registration);

@@ -54,14 +54,11 @@ table.tasks{
 	max-width: 200px
 }
 
-.tasks .todo,.tasks .doing{
-	border-right: 1px solid lightgrey
+.tasks td, .tasks th{
+	border-right: 1px solid lightgrey;
+	border-bottom: 1px solid lightgrey;
 }
-
-.tasks th, .tasks .done{
-	border-right: 1px solid black
-}
-
+/* 
 .tasks th:last-of-type, .tasks .done:last-of-type{
 	border-right: none;
-}
+} */

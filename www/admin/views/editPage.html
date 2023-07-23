@@ -1,78 +1,43 @@
-<div ng-controller="Edit" ng-init="sys.edit.init()" ng-if="data.edit.id">
-	<h3>Tag/Slug: <a editable-text="data.edit.tag" onaftersave="sys.edit.changed('tag')">{{data.edit.tag || '&lt;No Tag&gt;'}}</a></h3>
-	<h2><a editable-text="data.edit.name" onaftersave="sys.edit.changed('name')">{{data.edit.name || '&lt;No Title&gt;'}}</a></h2>
-	<a class="ng-hide pointer btn btn-{{sys.editInline?'primary':'info'}}" ng-click="sys.editInline=!sys.editInline; nhm.Util.safeApply()"><span class="fa fa-{{sys.editInline?'check':'times'}}"></span> {{sys.editInline?'Disable':'Enable'}} Editing Inline </a>
-	<div ckeditor="options" ng-model="data.edit.content" ng-change="sys.edit.changed('content')" placeholder="Add content here..."
-		contenteditable="true"></div>
-	<ul class="nav nav-tabs" ng-init="data.sectionMode = 'toc'">
-		<li class="nav-item pointer" ng-click="data.sectionMode='toc'">
-			<a class="nav-link {{data.sectionMode=='toc'?'active':''}}">Table of Contents</a>
-		</li>
-		<li class="nav-item pointer" ng-click="data.sectionMode='sections'">
-			<a class="nav-link {{data.sectionMode!='toc'?'active':''}}">All Sections</a>
-		</li>
-	</ul>
-	<a ng-click="sys.edit.appendSection()" class="btn btn-primary width100pc">Append Section</a>
-	<div ng-show="data.sectionMode=='toc'">
-		<h1 class="centered center">
-			Table of contents
-		</h1>
-		<div id="toc">
-			<div class="toc-h1" ng-repeat="tocL1 in data.edit.toc">
-				<my-section ng-model="tocL1"></my-section>
-				<div class="toc-h2" ng-repeat="tocL2 in tocL1.children">
-					<my-section ng-model="tocL2"></my-section>
-					<div class="toc-h3" ng-repeat="tocL3 in tocL2.children">
-						<my-section ng-model="tocL3"></my-section>
-						<div class="toc-h4" ng-repeat="tocL4 in tocL3.children">
-							<my-section ng-model="tocL4"></my-section>
-							<div class="toc-h5" ng-repeat="tocL5 in tocL3.children">
-								<my-section ng-model="tocL5"></my-section>
+<div ng-controller="Edit" ng-init="sys.edit.init()" nng-if="data.edit.id">
 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<select class="width200 btn btn-info btn-sm"
+		style="float: right;" ng-options="ed.id as ed.name for ed in nhm.Select.editors"
+		ng-model="data.edit.editor"
+		ng-change="sys.edit.changed('editor')"
+	><option value="">Default</option>
+	</select>
+
+	<h3>Tag/Slug:
+		<a editable-text="data.edit.tag" onaftersave="sys.edit.changed('tag')">
+			{{data.edit.tag || '&lt;No Tag&gt;'}}
+		</a>
+	</h3>
+
+	<h2>
+		<a editable-text="data.edit.name" onaftersave="sys.edit.changed('name')">
+			{{data.edit.name || '&lt;No Title&gt;'}}
+		</a>
+	</h2>
+
+	<a class="ng-hide pointer btn btn-{{sys.editInline?'primary':'info'}}"
+		ng-click="sys.editInline=!sys.editInline; nhm.Util.safeApply()">
+		<span class="fa fa-{{sys.editInline?'check':'times'}}"></span>
+		{{sys.editInline?'Disable':'Enable'}} Editing Inline
+	</a>
+
+	<div ng-if="!data.edit.editor || data.edit.editor == 'ckeditor'"
+		style="width: calc(100vw - 20px); height: calc(100vh - 220px); margin: auto;"
+		ckeditor="sys.ckeditorOptions"
+		ng-model="data.edit.content"
+		ng-change="sys.edit.Pages.changed('content')"
+		ng-init="initCKEditor"
+		placeholder="Add content here...">
 	</div>
 
-
-
-	<div ng-show="data.sectionMode!='toc'">
-		<h1 class="centered center">
-			All Sections
-		</h1>
-		<div id="sections">
-			<div ng-repeat="section in data.edit.sections">
-				<my-section ng-model="section"></my-section>
-			</div>
-			<section ng-model="section" ng-repeat="section in data.edit.sections" class="ng-hide">
-				<div class="row">
-					<div class="col-sm">
-						<h3>
-							<a editable-text="section.name"
-								onaftersave="section.changed('name')">
-								{{section.name || '&lt;Section Title&gt;'}}</a>
-						</h3>
-					</div>
-					<div class="col-sm"></div>
-					<div class="col-sm"></div>
-					<div class="col-sm">
-						<h4>
-							In section
-							<a editable-select="section.section"
-								e-ng-options="s.id as s.name for s in data.edit.sections"
-								e-placeholder="Page Root"
-								onaftersave="section.changed('section')">
-								{{section.parentName()}}</a>
-							<a ng-click="section.remove()" class="red pull-right"> <i class="fa fa-times red"></i> </a>
-						</h4>
-					</div>
-				</div>
-				<div ckeditor="options" ng-model="section.content" ng-change="section.changed('content')" placeholder="Add content here..."
-					contenteditable="true"></div>
-			</section>
-		</div>
-	</div>
+	<div ng-if="data.edit.editor == 'ace'"
+		style="width: calc(100vw - 20px); height: calc(100vh - 220px); margin: auto;"
+		ui-ace="data.edit.aceOptions"
+		ng-model="data.edit.content"
+		ng-init="sys.initAceEditor()">content?
+	</div>			
 </div>

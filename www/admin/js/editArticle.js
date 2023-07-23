@@ -4,29 +4,36 @@ app.controller('EditArticle', ['$scope', '$location', function ($scope, $locatio
 
 	const Articles = nhm.Data('articles');
 
-	sys.edArt = {
+	sys.editArticle = {
 		init: () => {
 			return (async()=>{
 				let [,page,tag] = $location.path().match(/\/([^\/]+)\/?([^\/]+)?/);
-				data.edArt = await Articles.read({tag});
+				await Articles.read({tag});
 				$location.path(`/editArticle/${tag}`);
+				let ready = false;
+				setTimeout(()=>ready = true,100);
 				sys.editor = new tui.Editor({
 					el: document.querySelector('#edart'),
 					previewStyle: 'vertical',
 					height: '300px',
 					initialEditType: 'markdown',
-					initialValue: data.edArt.content
+					initialValue: data.article.content,
+					events: {
+						change: ()=>{
+							if(!ready) return;
+							data.article.content = sys.editor.getMarkdown();
+							Articles.change({field:'content', id: data.article.id, value: data.article.content});
+							nhm.Notify.add('Changed')
+						},
+					},
 				});
-				sys.editor.on('change',()=>{
-					Articles.change({field:'content', id:data.edArt.id, value: sys.editor.getValue()})
-				})
 				sys.safeApply();
-			})().catch(nhm.Log.genFailer('sys.edArt.init'));
+			})().catch(nhm.Log.genFailer('sys.editArticle.init'));
 		},
 		changed: field=>{
-			if(field=='content') data.edArt.content = Util.stripSlashes(data.edArt.content)
-			if(data.edArt && data.edArt.id)
-				Articles.change({field, id: data.edArt.id, value: data.edArt[field]});
+			if(field=='content') data.editArticle.content = Util.stripSlashes(data.editArticle.content)
+			if(data.editArticle && data.editArticle.id)
+				Articles.change({field, id: data.editArticle.id, value: data.editArticle[field]});
 		},
 	}
 

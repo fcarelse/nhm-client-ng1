@@ -2,23 +2,16 @@
 	<h3>Tasks</h3>
 	<table class="tasks" style="height: calc(100vh - 160px);">
 		<tr>
-			<th colspan="3" ng-repeat="stage in sys.Tasks.stages" class="{{stage}} title">
+			<th ng-repeat="stage in sys.Tasks.stages" class="{{stage}} title">
 				{{nhm.Select.getName('taskStages',stage)}}
 			</th>
 		</tr>
 		<tr>
-			<th ng-repeat="ss in sys.Tasks.stageStatuses"
-				class="{{ss.stage}} {{ss.status}}"
-				ng-click="sys.newTask(ss)">
-				{{ss.status}}
-			</th>
-		</tr>
-		<tr>
-			<td ng-repeat="ss in sys.Tasks.stageStatuses"
-				class="{{ss.stage}} {{ss.status}}">
-				<card class="card {{ss.status}}"
+			<td ng-repeat="stage in sys.Tasks.stages"
+				class="{{stage}}">
+				<card class="card {{task.status}}"
 					ng-click="sys.gotoTask(task.id)"
-					ng-repeat="task in data[ss.stage][ss.status]"
+					ng-repeat="task in data[stage].all"
 					title="{{task.name}}: {{task.content}}">
 					<h6 class="card-title">{{task.name}}</h6>
 					<p class="card-content">{{task.content}}</p>

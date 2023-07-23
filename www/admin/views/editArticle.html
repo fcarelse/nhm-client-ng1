@@ -1,7 +1,7 @@
-<div ng-controller="EditArticle" ng-init="sys.edArt.init()">
-	<h3>Tag/Slug: <a editable-text="data.edArt.tag" onaftersave="sys.edArt.changed('tag')">{{data.edArt.tag || '&lt;No Tag&gt;'}}</a></h3>
-	<h2><a editable-text="data.edArt.name" onaftersave="sys.edArt.changed('name')">{{data.edArt.name || '&lt;No Title&gt;'}}</a></h2>
-	<a class="ng-hide pointer btn btn-{{sys.edArtInline?'primary':'info'}}" ng-click="sys.edArtInline=!sys.edArtInline; nhm.Util.safeApply()"><span class="fa fa-{{sys.edArtInline?'check':'times'}}"></span> {{sys.edArtInline?'Disable':'Enable'}} Editing Inline </a>
+<div ng-controller="EditArticle" ng-init="sys.editArticle.init()">
+	<h3>Tag/Slug: <a editable-text="data.article.tag" onaftersave="sys.editArticle.changed('tag')">{{data.article.tag || '&lt;No Tag&gt;'}}</a></h3>
+	<h2><a editable-text="data.article.name" onaftersave="sys.editArticle.changed('name')">{{data.article.name || '&lt;No Title&gt;'}}</a></h2>
+	<a class="ng-hide pointer btn btn-{{sys.editArticleInline?'primary':'info'}}" ng-click="sys.editArticleInline=!sys.editArticleInline; nhm.Util.safeApply()"><span class="fa fa-{{sys.editArticleInline?'check':'times'}}"></span> {{sys.editArticleInline?'Disable':'Enable'}} Editing Inline </a>
 	<div id="edart"></div>
 
 </div>

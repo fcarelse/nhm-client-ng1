@@ -7,7 +7,7 @@ app.controller('Edit', ['$scope', '$location', function ($scope, $location) {
 	$scope.init = async ()=>{
 	}
 
-	const Pages = nhm.Data('pages');
+	const Pages = sys.edit.Pages = nhm.DAO('pages', {data, singular: 'edit'});
 	const Sections = nhm.Data('sections');
 
 	$scope.dragOptions = {
@@ -23,7 +23,41 @@ app.controller('Edit', ['$scope', '$location', function ($scope, $location) {
 		container: 'sections'
 	}
 
-	sys.edit = {
+	// nhm.Select.editors = [
+	// 	{id:'ace', name: 'Ace Editor'},
+	// 	{id:'markdown', name: 'Markdown Editor'},
+	// 	{id:'ckeditor', name: 'CK Editor'},
+	// 	{id:'textarea', name: 'Text Area'},
+	// ];
+
+	sys.initAceEditor = ()=>{
+		sys.aceLoaded = function(_editor) {
+			_editor.setOption("enableEmmet", true);
+			data.edit._editor = _editor;
+			// console.log('Ace Loaded');
+		};
+
+		sys.aceChanged = function(e) {
+			Pages.changed('content');
+		};
+
+		data.edit.aceOptions = {
+			useWrapMode : true,
+			showGutter: true,
+			theme:'twilight',
+			mode: 'ace/mode/html',
+			firstLineNumber: 1,
+			onLoad: sys.aceLoaded,
+			onChange: sys.aceChanged,
+			enableEmmet: true,
+		};
+
+	data.edit.pages = Pages;
+		console.log('Init Ace Editor');
+	}
+
+	sys.edit = sys.edit || {};
+	Object.assign(sys.edit, {
 		init: () => {
 			return (async()=>{
 				let [,page,tag] = $location.path().match(/\/([^\/]+)\/?([^\/]+)?/);
@@ -34,13 +68,14 @@ app.controller('Edit', ['$scope', '$location', function ($scope, $location) {
 				]});
 				data.edit.sections.forEach(sectionInject);
 				genTOC();
+				data.edit.editor = data.edit.editor || 'ckeditor';
 				sys.safeApply();
 			})().catch(nhm.Log.genFailer('sys.edit.init'));
 		},
 		changed: field=>{
 			if(field=='content') data.edit.content = Util.stripSlashes(data.edit.content)
 			if(data.edit && data.edit.id)
-				Pages.change({field, id: data.edit.id, value: data.edit[field]});
+				Pages.changed(field);
 		},
 		appendSection: ()=>{
 			const name = prompt('Name for new section');
@@ -61,7 +96,7 @@ app.controller('Edit', ['$scope', '$location', function ($scope, $location) {
 				}
 			})().catch(nhm.Log.genFailer('sys.edit.appendSection'));
 		}
-	}
+	});
 
 	function genTOC(){
 		data.edit.toc = Util.treeBuilder(data.edit.sections,{parentKey: 'section'});

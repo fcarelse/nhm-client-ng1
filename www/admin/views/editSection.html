@@ -5,6 +5,5 @@
     <input ng-model="data.edit.name" type="text" class="form-control" id="title" aria-describedby="titleHelp">
     <small id="titleHelp" class="form-text text-muted">Your email address from your account with us</small>
   </div>
-	<div ckeditor="options" ng-model="data.edit.content" rready="init(100)" ng-change="sys.Sections.changed('content')"
-		contenteditable="{{Auth.hasTag('records') && Auth.hasTag('administrators')}}"></div>
+	<div ckeditor="options" ng-model="data.edit.content" rready="init(100)" ng-change="sys.Sections.changed('content')"></div>
 </form>
