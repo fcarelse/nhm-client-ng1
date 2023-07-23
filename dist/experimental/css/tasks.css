@@ -1,0 +1,64 @@
+table.tasks{
+	overflow: scroll;
+	table-layout: fixed;
+	overflow-x: scroll;
+}
+
+.tasks th{
+	text-align: center;
+	height: 50px;
+	width: 240px;
+	text-transform: capitalize;
+}
+
+.tasks .card{
+	text-align: center;
+	border: 1px solid grey;
+	margin: 5px;
+	margin-bottom: 15px;
+}
+
+.tasks td{
+	text-align: center;
+	max-width: 200px;
+	vertical-align: top;
+}
+
+.tasks .card-title{
+	padding: 4px;
+}
+.tasks .card-content{
+	padding: 4px;
+}
+
+.tasks .card.todo .card-title{
+	background: rgba(145, 27, 7, 0.836);
+}
+.tasks .card.doing .card-title{
+	background: rgba(240, 159, 38, 0.486);
+}
+.tasks .card.done .card-title{
+	background: rgba(28, 177, 48, 0.459);
+}
+
+.tasks th.todo{
+	background: rgba(145, 27, 7, 0.836);
+	max-width: 200px
+}
+.tasks th.doing{
+	background: rgb(240, 159, 38);
+	max-width: 200px
+}
+.tasks th.done{
+	background: rgb(28, 177, 48);
+	max-width: 200px
+}
+
+.tasks td, .tasks th{
+	border-right: 1px solid lightgrey;
+	border-bottom: 1px solid lightgrey;
+}
+/* 
+.tasks th:last-of-type, .tasks .done:last-of-type{
+	border-right: none;
+} */

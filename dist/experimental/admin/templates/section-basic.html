@@ -1,0 +1,34 @@
+<div>
+	<div class="marginleft{{section.indent}}">
+		<h5 class="width300 pull-right">
+			In:
+			<a editable-select="section.section"
+				e-ng-options="s.id as s.name for s in data.edit.sections"
+				e-placeholder="Page Root"
+				onaftersave="section.changed('section')">
+				{{section.parentName()}}</a>
+			<a ng-click="section.remove()" class="red pull-right"> <i class="fa fa-times red"></i> </a>
+		</h5>
+		<h5 class="width300 pull-right nng-hide">
+			Type:
+			<select ng-model="section.type" ng-options="s.id as s.name for s in nhm.Select.sectionTypes"
+				ng-change="section.changed('type')">
+				<option value="">Select a Type</option>
+			</select>
+			<a ng-click="section.remove()" class="red pull-right"> <i class="fa fa-times red"></i> </a>
+		</h5>
+		<h3 class="section-title-l{{section.level}}">
+			{{section.ref}}
+			<a editable-text="section.name"
+				onaftersave="section.changed('name')">
+				{{section.name || '&lt;Section Title&gt;'}}</a>
+		</h3>
+	</div>
+	<textarea ng-if="!section.type" ng-model="section.content"
+		ng-change="section.changed('content')" placeholder="Add content here..."
+		style="width: 100%; height: 200px">
+		</textarea>
+	<div ng-if="section.type == 'basic'" ckeditor="options" ng-model="section.content" ng-change="section.changed('content')" placeholder="Add content here..."></div>
+	<div ng-if="section.type != 'basic'" id="edart" style="height: 200px"></div>
+
+</div>

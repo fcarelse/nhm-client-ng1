@@ -1,0 +1,33 @@
+<div class="container" ng-if="sys.page.tag=='register'">
+	<h3>Register</h3>
+	<form ng-init="sys.User.Register.init()" id="regForm" name="regForm">
+		<div class="form-group">
+			<label for="regEmail">Email</label>
+			<input ng-model="data.reg.email" type="text" class="form-control"
+				id="regEmail" aria-describedby="emailHelp" required>
+			<small id="emailHelp" class="form-text text-muted">Your email address from your account with us</small>
+		</div>
+		<div class="form-group">
+			<label for="regCaptcha">Captcha <img src="/user/captcha.svg"></label>
+			<input ng-model="data.reg.captcha" type="text" class="form-control"
+				id="regCaptcha" aria-describedby="captchaHelp" required>
+			<small id="captchaHelp" class="form-text text-muted">Enter the text from the captcha image</small>
+		</div>
+
+		<div class="form-group">
+			<label for="regFirst">First name</label>
+			<input ng-model="data.reg.first" type="text" class="form-control"
+				id="regFirst" aria-describedby="firstHelp" required>
+			<small id="firstHelp" class="form-text text-muted">First name</small>
+		</div>
+
+		<div class="form-group">
+			<label for="regLast">Last name</label>
+			<input ng-model="data.reg.last" type="text" class="form-control"
+				id="regLast" aria-describedby="lastHelp" required>
+			<small id="lastHelp" class="form-text text-muted">Last name</small>
+		</div>
+
+		<button type="submit" ng-click="sys.User.Register.submit()" class="btn btn-primary pointer" ng-disable="regForm.$invalid()">Submit</button>
+	</form>
+</div>
