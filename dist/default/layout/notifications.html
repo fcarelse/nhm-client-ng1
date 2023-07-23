@@ -1,0 +1,15 @@
+<table class="table table-striped" id="popupNotices"
+	style="position: fixed; bottom: 50px; right: 0; width: 300px; z-index: 9999;">
+	<thead ng-show="nhm.Notify.notes.length">
+		<tr class="info"><th>Notes:</th></tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="notice in nhm.Notify.notes" class="alert alert-{{notice.type || 'info'}}">
+			<td ng-click="close(notice.id)" class="padding5">
+				{{notice.note}} {{notice.count > 1? '(x'+notice.count+')':''}}
+				<a style="cursor: pointer;" class="pull-right">
+					<span class="glyphicon glyphicon-remove"></span></a>
+			</td>
+		</tr>
+	</tbody>
+</table>

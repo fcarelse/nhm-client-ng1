@@ -1,0 +1,43 @@
+<div ng-controller="Edit" ng-init="sys.edit.init()" nng-if="data.edit.id">
+
+	<select class="width200 btn btn-info btn-sm"
+		style="float: right;" ng-options="ed.id as ed.name for ed in nhm.Select.editors"
+		ng-model="data.edit.editor"
+		ng-change="sys.edit.changed('editor')"
+	><option value="">Default</option>
+	</select>
+
+	<h3>Tag/Slug:
+		<a editable-text="data.edit.tag" onaftersave="sys.edit.changed('tag')">
+			{{data.edit.tag || '&lt;No Tag&gt;'}}
+		</a>
+	</h3>
+
+	<h2>
+		<a editable-text="data.edit.name" onaftersave="sys.edit.changed('name')">
+			{{data.edit.name || '&lt;No Title&gt;'}}
+		</a>
+	</h2>
+
+	<a class="ng-hide pointer btn btn-{{sys.editInline?'primary':'info'}}"
+		ng-click="sys.editInline=!sys.editInline; nhm.Util.safeApply()">
+		<span class="fa fa-{{sys.editInline?'check':'times'}}"></span>
+		{{sys.editInline?'Disable':'Enable'}} Editing Inline
+	</a>
+
+	<div ng-if="!data.edit.editor || data.edit.editor == 'ckeditor'"
+		style="width: calc(100vw - 20px); height: calc(100vh - 220px); margin: auto;"
+		ckeditor="sys.ckeditorOptions"
+		ng-model="data.edit.content"
+		ng-change="sys.edit.Pages.changed('content')"
+		ng-init="initCKEditor"
+		placeholder="Add content here...">
+	</div>
+
+	<div ng-if="data.edit.editor == 'ace'"
+		style="width: calc(100vw - 20px); height: calc(100vh - 220px); margin: auto;"
+		ui-ace="data.edit.aceOptions"
+		ng-model="data.edit.content"
+		ng-init="sys.initAceEditor()">content?
+	</div>			
+</div>

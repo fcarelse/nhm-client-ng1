@@ -1,0 +1,12 @@
+	<div class="breadcrumbs" style="padding: 10px 0;">
+		<ul class="nav nav-tabs">
+			<li class="nav-item"
+				ng-repeat="page in nhm.Select.adminPages"
+				ng-click="sys.goto(page.tag)"
+				ng-if="!page.hide">
+				<a class="nav-link pointer {{sys.page.tag == page.tag?'active':''}}">
+					{{page.name}}
+				</a>
+			</li>
+		</ul>
+	</div>

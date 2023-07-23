@@ -1,0 +1,60 @@
+<div ng-hide="Tables.record" ng-controller="Tables" ng-init="Tables.init()">
+	<h3>
+		Tables
+		<a ng-click="sys.newTable()" class="btn btn-primary btn-xs">
+			<i class="fa fa-plus"></i> New
+		</a>
+		<a ng-click="Tables.reload()" class="btn btn-primary btn-xs">
+			<i class="fa fa-refresh"></i> Reload
+		</a>
+	</h3>
+	<div class="fxc-tree">
+		<div class="fxc-tree-node">
+		</div>
+	</div>
+	<table class="table" ng-init="Tables.reload(); Tables.record = false;">
+		<tr>
+			<th>Tag</th>
+			<th>Title</th>
+		</tr>
+		<tr ng-repeat="table in Tables.records" ng-click="Tables.load(table.id)" class="pointer">
+			<td>{{table.tag}}</td>
+			<td>{{table.name}}</td>
+		</tr>
+	</table>
+</div>
+<div ng-show="Tables.record">
+	<a ng-click="Tables.record = false" class="btn btn-warning btn-xs">&lt;- Back</a>
+	<h3>ID {{Tables.record.id}}: (tag: "{{Tables.record.tag}}"")</h3>
+
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text width200" id="basic-addon3">Description</span>
+		</div>
+		<input type="text" class="form-control" id="basic-url" aria-describedby="Record Description"
+		ng-model="Tables.record.name" ng-change="Tables.changed('name')"
+		>
+	</div>
+
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text width200" id="basic-addon3">Sort By</span>
+		</div>
+		<select class="form-control"
+			ng-options="f.tag as f.label for f in Tables.fieldsList"
+			ng-model="Tables.record.sort.by"
+			ng-change="Tables.changed('sort')"
+		>
+			<option value="">Select a field</option>
+		</select>
+	</div>
+
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text width200" id="basic-addon3">Sort Order</span>
+		</div>
+		<input type="text" class="form-control" id="basic-url" aria-describedby="Record Description"
+			ng-model="Tables.record.sort.order" ng-change="Tables.changed('sort')"
+		>
+	</div>
+</div>

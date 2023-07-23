@@ -1,0 +1,7 @@
+<div ng-controller="EditArticle" ng-init="sys.editArticle.init()">
+	<h3>Tag/Slug: <a editable-text="data.article.tag" onaftersave="sys.editArticle.changed('tag')">{{data.article.tag || '&lt;No Tag&gt;'}}</a></h3>
+	<h2><a editable-text="data.article.name" onaftersave="sys.editArticle.changed('name')">{{data.article.name || '&lt;No Title&gt;'}}</a></h2>
+	<a class="ng-hide pointer btn btn-{{sys.editArticleInline?'primary':'info'}}" ng-click="sys.editArticleInline=!sys.editArticleInline; nhm.Util.safeApply()"><span class="fa fa-{{sys.editArticleInline?'check':'times'}}"></span> {{sys.editArticleInline?'Disable':'Enable'}} Editing Inline </a>
+	<div id="edart"></div>
+
+</div>

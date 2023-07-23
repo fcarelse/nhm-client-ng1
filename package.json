@@ -8,7 +8,10 @@
   },
   "scripts": {
     "test": "npx jest",
-		"deploy:experimental": "cp -r www/* dist/experimental/."
+		"stage:default": "npx mkdirp staging/default && npx cpx www/** staging/default && npx cpx src/default/** staging/default",
+		"stage:experimental": "npx mkdirp staging/experimental && npx cpx www/** staging/experimental && npx cpx src/experimental/* staging/experimental",
+		"deploy:default": "npx mkdirp dist/default && npx cpx www/** dist/default && npx cpx src/default/** dist/default",
+		"deploy:experimental": "npx mkdirp dist/experimental && npx cpx www/** dist/experimental && npx cpx src/experimental/* dist/experimental"
   },
   "repository": {
     "type": "git",

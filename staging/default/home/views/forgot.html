@@ -1,0 +1,17 @@
+<div class="container" ng-if="sys.page.tag=='forgot'">
+	<h3>Forgot Password</h3>
+	<form ng-init="sys.User.Forgot.init()" id="forgotForm" name="forgotForm">
+		<div class="form-group">
+			<label for="forgotEmail">Email</label>
+			<input ng-model="data.forgot.email" type="text" class="form-control"
+				id="forgotEmail" aria-describedby="emailHelp" required>
+			<small id="emailHelp" class="form-text text-muted">Your email address from your account with us</small>
+		</div>
+		<div class="form-group">
+			<label for="forgotCaptcha">Captcha</label>
+			<input ng-model="data.forgot.captcha" type="text" class="form-control" id="forgotCaptcha" required>
+			<img ng-src="/user/captcha.svg?svg={{data.svgRNG}}">
+		</div>
+		<button type="submit" ng-click="sys.User.Forgot.submit()" class="btn btn-primary pointer" ng-disable="forgotForm.$valid()">Submit</button>
+	</form>
+</div>

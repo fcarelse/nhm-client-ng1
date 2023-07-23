@@ -1,0 +1,86 @@
+<div>
+	<ul class="nav nav-tabs" ng-init="data.sectionMode = 'toc'">
+		<li class="nav-item pointer" ng-click="data.sectionMode='toc'">
+			<a class="nav-link {{data.sectionMode=='toc'?'active':''}}">Table of Contents</a>
+		</li>
+		<li class="nav-item pointer" ng-click="data.sectionMode='sections'">
+			<a class="nav-link {{data.sectionMode!='toc'?'active':''}}">All Sections</a>
+		</li>
+	</ul>
+	<a ng-click="sys.edit.appendSection()" class="btn btn-primary width100pc">Append Section</a>
+	<div ng-show="data.sectionMode=='toc'">
+		<h1 class="centered center">
+			Table of contents
+		</h1>
+		<div id="toc">
+			<div class="toc-h1" ng-repeat="tocL1 in data.edit.toc">
+				<my-section ng-model="tocL1"></my-section>
+				<div class="toc-h2" ng-repeat="tocL2 in tocL1.children">
+					<my-section ng-model="tocL2"></my-section>
+					<div class="toc-h3" ng-repeat="tocL3 in tocL2.children">
+						<my-section ng-model="tocL3"></my-section>
+						<div class="toc-h4" ng-repeat="tocL4 in tocL3.children">
+							<my-section ng-model="tocL4"></my-section>
+							<div class="toc-h5" ng-repeat="tocL5 in tocL3.children">
+								<my-section ng-model="tocL5"></my-section>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div ng-show="data.sectionMode!='toc'">
+		<h1 class="centered center">
+			All Sections
+		</h1>
+		<div id="sections">
+			<div ng-repeat="section in data.edit.sections">
+				<my-section ng-model="section"></my-section>
+			</div>
+			<section ng-model="section" ng-repeat="section in data.edit.sections" class="ng-hide">
+				<div class="row">
+					<div class="col-sm">
+						<h3>
+							<a editable-text="section.name"
+								onaftersave="section.changed('name')">
+								{{section.name || '&lt;Section Title&gt;'}}</a>
+						</h3>
+					</div>
+					<div class="col-sm"></div>
+					<div class="col-sm"></div>
+					<div class="col-sm">
+						<h4>
+							In section
+							<a editable-select="section.section"
+								e-ng-options="s.id as s.name for s in data.edit.sections"
+								e-placeholder="Page Root"
+								onaftersave="section.changed('section')">
+								{{section.parentName()}}</a>
+							<a ng-click="section.remove()" class="red pull-right"> <i class="fa fa-times red"></i> </a>
+						</h4>
+					</div>
+				</div>
+				<div ckeditor="options" ng-model="section.content" ng-change="section.changed('content')" placeholder="Add content here..."
+					></div>
+			</section>
+		</div>
+	</div>
+
+	<div uui-ace="{
+			useWrapMode : true,
+			showGutter: false,
+			theme:'twilight',
+			mode: 'xml',
+			firstLineNumber: 5,
+			onLoad: aceLoaded,
+			onChange: aceChanged,
+		}" nng-model="data.edit.content" nng-init="sys.initAceEditor()">
+		content?
+	</div>			
+
+</div>

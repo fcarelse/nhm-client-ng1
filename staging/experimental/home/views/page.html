@@ -1,0 +1,39 @@
+<h2 ng-bind-html="$sce.trustAsHtml(data.page.name)"></h2>
+<p ng-bind-html="$sce.trustAsHtml(data.page.content)"></p>
+
+<div class="toc ng-hide" ng-if="false">
+	<div class="toc-h1" ng-repeat="tocL1 in data.page.toc">
+		<my-section ng-model="tocL1"></my-section>
+		<div class="toc-h2" ng-repeat="tocL2 in tocL1.children">
+			<my-section ng-model="tocL2"></my-section>
+			<div class="toc-h3" ng-repeat="tocL3 in tocL2.children">
+				<my-section ng-model="tocL3"></my-section>
+				<div class="toc-h4" ng-repeat="tocL4 in tocL3.children">
+					<my-section ng-model="tocL4"></my-section>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="toc">
+	<div class="toc-h1 marginleft{{tocL1.indent}}" ng-repeat="tocL1 in data.page.toc">
+		<div ng-include="'/section/'+tocL1.id+'/2/'+tocL1.ref"></div>
+		<div class="toc-h2 marginleft{{tocL2.indent}}" ng-repeat="tocL2 in tocL1.children">
+			<div ng-include="'/section/'+tocL2.id+'/3/'+tocL2.ref"></div>
+			<div class="toc-h3 marginleft{{tocL3.indent}}" ng-repeat="tocL3 in tocL2.children">
+				<div ng-include="'/section/'+tocL3.id+'/4/'+tocL3.ref"></div>
+				<div class="toc-h4 marginleft{{tocL4.indent}}" ng-repeat="tocL4 in tocL3.children">
+					<div ng-include="'/section/'+tocL4.id+'/5/'+tocL4.ref"></div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div ng-repeat="section in data.page.sections" class="ng-hide" ng-if="false">
+	<div ng-include="'/section/'+section.id"></div>
+</div>

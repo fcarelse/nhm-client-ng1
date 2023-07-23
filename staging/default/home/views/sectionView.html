@@ -1,0 +1,9 @@
+<div>
+	<div class="marginleft{{section.indent}}">
+		<h3 class="section-title-l{{section.level}}">
+			{{section.ref}}
+			{{section.name || '&lt;Section Title&gt;'}}
+		</h3>
+		<p ng-bind-html="$sce.trustAsHtml(section.content)">{{$sce.trustAsHtml(section.content)}}</p>
+	</div>
+</div>

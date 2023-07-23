@@ -1,0 +1,22 @@
+<div ng-controller="Tasks">
+	<h3>Tasks</h3>
+	<table class="tasks" style="height: calc(100vh - 160px);">
+		<tr>
+			<th ng-repeat="stage in sys.Tasks.stages" class="{{stage}} title">
+				{{nhm.Select.getName('taskStages',stage)}}
+			</th>
+		</tr>
+		<tr>
+			<td ng-repeat="stage in sys.Tasks.stages"
+				class="{{stage}}">
+				<card class="card {{task.status}}"
+					ng-click="sys.gotoTask(task.id)"
+					ng-repeat="task in data[stage].all"
+					title="{{task.name}}: {{task.content}}">
+					<h6 class="card-title">{{task.name}}</h6>
+					<p class="card-content">{{task.content}}</p>
+				</card>
+			</td>
+		</tr>
+	</table>
+</div>

@@ -1,0 +1,17 @@
+<div class="container" ng-if="sys.page.tag=='login'">
+	<h3>Login</h3>
+	<form ng-init="data.login = {}">
+		<div class="form-group">
+			<label for="loginUsername">Username/Email</label>
+			<input ng-model="data.login.username" type="text" class="form-control" id="loginUsername" aria-describedby="emailHelp" required>
+			<small id="emailHelp" class="form-text text-muted">Your email address from your account with us</small>
+		</div>
+		<div class="form-group">
+			<label for="loginPassword">Password/One-Time-Code</label>
+			<input ng-model="data.login.password" type="password" class="form-control" id="loginPassword" required>
+		</div>
+		<button type="submit" ng-click="sys.login(data.login)" class="btn btn-primary pointer">Submit</button>
+		or
+		<button ng-click="sys.goto('forgot')" class="btn btn-primary pointer">Forgot Password</button>
+	</form>
+</div>

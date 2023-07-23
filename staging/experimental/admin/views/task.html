@@ -1,0 +1,42 @@
+<div ng-controller="Tasks">
+	<form ng-init="sys.initTaskForm()" id="formTask" name="formTask" style="padding: 10px">
+		<div class="form-group">
+			<label for="demoTaskName">Task Title</label>
+			<input ng-model="data.task.name" type="text" class="form-control" required
+				ng-change="sys.Tasks.changed('name')"
+				id="demoTaskName" aria-describedby="taskTitleInfo" placeholder="Task Title">
+			<small id="taskTitleInfo" class="form-text text-muted">Brief title for the task</small>
+		</div>
+		<div class="form-group">
+			<label for="demoTaskContent">Task Description</label>
+			<input ng-model="data.task.content" type="text" class="form-control" required
+				ng-change="sys.Tasks.changed('content')"	
+				id="demoTaskContent" aria-describedby="taskContentInfo" placeholder="Task Description">
+			<small id="taskContentInfo" class="form-text text-muted">Details of the task</small>
+		</div>
+		<div class="form-group">
+			<label id="taskStage" for="demoTaskStage">Stage</label>
+			<select ng-model="data.task.stage" name="demoTaskStage" class="form-control"
+				ng-change="sys.Tasks.changed('stage')"	
+				ng-options="stage for stage in sys.Tasks.stages" required
+				id="taskStage" aria-describedby="taskStageInfo">
+				<option value="">Choose a stage</option>
+			</select>
+			<small id="taskContent" class="form-text text-muted">Stage of development</small>
+		</div>
+		<div class="form-group">
+			<label id="taskStatus" for="demoTaskStatus">Status</label>
+			<select ng-model="data.task.status" name="demoTaskStatus" id="taskStatus" class="form-control"
+				ng-change="sys.Tasks.changed('status')"	
+				ng-options="status for status in sys.Tasks.statuses" required
+				aria-describedby="taskStatusInfo">
+				<option value="">Choose a status</option>
+			</select>
+			<small id="taskContent" class="form-text text-muted">Status within the stage</small>
+		</div>
+		<input type="hidden" ng-pattern="true" required >
+		<a ng-click="sys.goto('tasks')" class="btn btn-primary">
+			Back to Tasks
+		</a>
+	</form>
+</div>

@@ -1,0 +1,13 @@
+<h3>Users</h3>
+<table class="table" ng-init="Users.reload()">
+	<tr>
+		<th>ID</th>
+		<th>Tag</th>
+		<th>Fullname</th>
+	</tr>
+	<tr ng-repeat="user in Users.records">
+		<td>{{user.id}}</td>
+		<td>{{user.tag}}</td>
+		<td>{{user.name}}</td>
+	</tr>
+</table>
